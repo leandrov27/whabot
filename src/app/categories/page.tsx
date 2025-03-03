@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 
 // config
-import { BASE_URL } from "@/config/env";
+//import { BASE_URL } from "@/config/env";
 
 // widgets
 import WhabotInfoCard from "@/components/widgets/WhabotInfoCard";
