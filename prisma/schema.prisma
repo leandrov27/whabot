@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    
+  Services Service[]
+
+  @@map("categories")
+}
+
+model Service {
+  id         Int       @id @default(autoincrement())
+  idCategory Int       @map("id_category")
+  name       String    
+  price      Float
+  category   Category  @relation(fields: [idCategory], references: [id])
+  Bookings   Booking[]
+
+  @@map("services")
+}
+
+model Availability {
+  id        Int       @id @default(autoincrement())
+  dayWeek   String    @map("day_week")
+  startTime String    @map("start_time")
+  endTime   String    @map("end_time")
+  Bookings  Booking[]
+
+  @@map("availabilities")
+}
+
+model Booking {
+  id             Int          @id @default(autoincrement())
+  idService      Int
+  idAvailability Int
+  date           String
+  startTime      String       @map("start_time")
+  endTime        String       @map("end_time")
+  clientName     String       @map("client_name")
+  clientPhone    String?      @map("client_phone")
+  clientDocument String       @map("client_document")
+  status         String       @default("pendiente")
+  service        Service      @relation(fields: [idService], references: [id])
+  availability   Availability @relation(fields: [idAvailability], references: [id])
+
+  @@map("bookings")
+}
