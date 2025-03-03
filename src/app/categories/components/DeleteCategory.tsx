@@ -31,7 +31,7 @@ export default function DeleteCategoy({ selectedCategory }: IDeleteCategoyProps)
 
   const handleDeleteCategory = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/categories/${selectedCategory.id}`, { method: 'DELETE'});
+      const res = await fetch(`/api/categories/${selectedCategory.id}`, { method: 'DELETE'});
       const resData = await res.json();
 
       if (!res.ok) {

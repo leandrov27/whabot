@@ -30,7 +30,7 @@ import { ICategoriesPageProps, IGetCategoriesResponse } from "./interfaces/types
 // ----------------------------------------------------------------------
 
 async function getCategories(page: number = 1): Promise<IGetCategoriesResponse> {
-  const res = await fetch(`http://localhost:3000/api/categories?page=${page}&limit=3`);
+  const res = await fetch(`/api/categories?page=${page}&limit=3`);
   if (!res.ok) {
     throw new Error("Failed to fetch categories");
   }
