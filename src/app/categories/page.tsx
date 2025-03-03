@@ -13,6 +13,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+// config
+import { BASE_URL } from "@/config/env";
+
 // widgets
 import WhabotInfoCard from "@/components/widgets/WhabotInfoCard";
 import WhabotCardFooter from "@/components/widgets/WhabotCardFooter";
@@ -27,13 +30,10 @@ import DeleteCategoy from "./components/DeleteCategory";
 // [interfaces]
 import { ICategoriesPageProps, IGetCategoriesResponse } from "./interfaces/types";
 
-// lib
-//import { API_URL } from "@/lib/axios";
-
 // ----------------------------------------------------------------------
 
 async function getCategories(page: number = 1): Promise<IGetCategoriesResponse> {
-  const res = await fetch(`/api/categories?page=${page}&limit=3`);
+  const res = await fetch(`${BASE_URL}/api/categories?page=${page}&limit=3`);
   if (!res.ok) {
     throw new Error("Failed to fetch categories");
   }

@@ -10,9 +10,6 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// lib
-//import { API_URL } from "@/lib/axios";
-
 // core
 import { CreateUpdateCategorySchema, ICreateUpdateCategorySchema } from "../schemas";
 import { ICategory } from "../interfaces";
