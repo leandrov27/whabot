@@ -27,10 +27,13 @@ import DeleteCategoy from "./components/DeleteCategory";
 // [interfaces]
 import { ICategoriesPageProps, IGetCategoriesResponse } from "./interfaces/types";
 
+// lib
+import { API_URL } from "@/lib/axios";
+
 // ----------------------------------------------------------------------
 
 async function getCategories(page: number = 1): Promise<IGetCategoriesResponse> {
-  const res = await fetch(`/api/categories?page=${page}&limit=3`);
+  const res = await fetch(`${API_URL}/api/categories?page=${page}&limit=3`);
   if (!res.ok) {
     throw new Error("Failed to fetch categories");
   }

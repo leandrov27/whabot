@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 
 // lib
-import { prisma } from "@/lib/prisma";
+import { db } from "@/lib/prisma";
 
 // core
 import { CreateUpdateCategorySchema } from "@/core/schemas";
@@ -17,12 +17,12 @@ export async function GET(request: Request) {
   const limit = parseInt(searchParams.get("limit") || "3", 10);
   const skip = (page - 1) * limit;
 
-  const categories = await prisma.category.findMany({
+  const categories = await db.category.findMany({
     skip,
     take: limit,
   });
 
-  const total = await prisma.category.count();
+  const total = await db.category.count();
   const totalPages = Math.ceil(total / limit);
 
   return NextResponse.json(
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 
     const { name } = validationResult.data;
 
-    await prisma.category.create({
+    await db.category.create({
       data: {
         name: name,
       },

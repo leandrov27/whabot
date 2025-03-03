@@ -10,10 +10,12 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+// lib
+//import { API_URL } from "@/lib/axios";
+
 // core
 import { CreateUpdateCategorySchema, ICreateUpdateCategorySchema } from "../schemas";
 import { ICategory } from "../interfaces";
-import { AxiosError } from "axios";
 
 // ----------------------------------------------------------------------
 
@@ -56,7 +58,7 @@ export const useCreateUpdateCategoryForm = ({ isEdit = false, currentCategory, o
   const onSubmit = async (data: ICreateUpdateCategorySchema) => {
     try {
       if(!isEdit) {
-        const resp = await fetch('/api/categories', {method: 'POST', body: JSON.stringify(data)});
+        const resp = await fetch(`/api/categories`, {method: 'POST', body: JSON.stringify(data)});
         const respData = await resp.json();
         router.refresh();
 
@@ -68,7 +70,12 @@ export const useCreateUpdateCategoryForm = ({ isEdit = false, currentCategory, o
           router.replace('/categories');
         }
       }else {
-        const resp = await fetch(`/api/categories/${currentCategory?.id}`, {method: 'PUT', body: JSON.stringify(data)});
+        const resp = await fetch(`/api/categories/${currentCategory?.id}`, {
+          
+          method: 'PUT', 
+          body: JSON.stringify(data),
+          
+        });
         const respData = await resp.json();
         router.refresh();
 
@@ -78,8 +85,8 @@ export const useCreateUpdateCategoryForm = ({ isEdit = false, currentCategory, o
         onOpenChange(false);
       }
     } catch (error) {
-      if(error instanceof AxiosError) {
-        toast.error(`${error.response?.data.message}`, { richColors: true });
+      if(error instanceof Error) {
+        toast.error(`${error.message}`, { richColors: true });
       }
 
     }

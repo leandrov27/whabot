@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 
 // lib
-import { prisma } from "@/lib/prisma";
+import { db } from "@/lib/prisma";
 
 // core
 import { CreateUpdateCategorySchema } from "@/core/schemas";
@@ -37,7 +37,7 @@ export async function PUT(request: Request, { params }: { params: Params }) {
       );
     }
 
-    const selectedCategory = await prisma.category.findFirst({ where: { id: parsedId } });
+    const selectedCategory = await db.category.findFirst({ where: { id: parsedId } });
 
     if(!selectedCategory) {
       return NextResponse.json(
@@ -48,7 +48,7 @@ export async function PUT(request: Request, { params }: { params: Params }) {
 
     const { name } = validationResult.data;
 
-    await prisma.category.update({
+    await db.category.update({
       where: { id: parsedId },
       data: { name: name },
     });
@@ -80,7 +80,7 @@ export async function DELETE(_: Request, { params }: { params: Params }) {
       );
     }
 
-    const selectedCategory = await prisma.category.findFirst({ where: { id: parsedId } });
+    const selectedCategory = await db.category.findFirst({ where: { id: parsedId } });
 
     if(!selectedCategory) {
       return NextResponse.json(
@@ -89,7 +89,7 @@ export async function DELETE(_: Request, { params }: { params: Params }) {
       );
     }
 
-    await prisma.category.delete({ where: { id: parsedId } });
+    await db.category.delete({ where: { id: parsedId } });
 
     return NextResponse.json(
       { message: `La categoría ${selectedCategory.name} se ha eliminado correctamente.` },

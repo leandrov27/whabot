@@ -9,13 +9,13 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Category {
   id       Int       @id @default(autoincrement())
-  name     String    
+  name     String
   Services Service[]
 
   @@map("categories")
@@ -24,7 +24,7 @@ model Category {
 model Service {
   id         Int       @id @default(autoincrement())
   idCategory Int       @map("id_category")
-  name       String    
+  name       String
   price      Float
   category   Category  @relation(fields: [idCategory], references: [id])
   Bookings   Booking[]
