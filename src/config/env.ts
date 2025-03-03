@@ -1,1 +1,1 @@
-export const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+export const BASE_URL = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';

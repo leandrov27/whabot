@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 
 // config
-//import { BASE_URL } from "@/config/env";
+import { BASE_URL } from "@/config/env";
 
 // widgets
 import WhabotInfoCard from "@/components/widgets/WhabotInfoCard";
@@ -33,7 +33,7 @@ import { ICategoriesPageProps, IGetCategoriesResponse } from "./interfaces/types
 // ----------------------------------------------------------------------
 
 async function getCategories(page: number = 1): Promise<IGetCategoriesResponse> {
-  const res = await fetch(`https://whabot-gilt.vercel.app/api/categories?page=${page}&limit=3`);
+  const res = await fetch(`${BASE_URL}/api/categories?page=${page}&limit=3`);
   if (!res.ok) {
     throw new Error("Failed to fetch categories");
   }
