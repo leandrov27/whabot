@@ -10,9 +10,6 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// lib
-import ax from "@/lib/axios";
-
 // core
 import { CreateUpdateCategorySchema, ICreateUpdateCategorySchema } from "../schemas";
 import { ICategory } from "../interfaces";
@@ -59,10 +56,11 @@ export const useCreateUpdateCategoryForm = ({ isEdit = false, currentCategory, o
   const onSubmit = async (data: ICreateUpdateCategorySchema) => {
     try {
       if(!isEdit) {
-        const resp = await ax.post('/api/categories', data);
+        const resp = await fetch('/api/categories', {method: 'POST', body: JSON.stringify(data)});
+        const respData = await resp.json();
         router.refresh();
 
-        toast.success(resp.data.message, { richColors: true });
+        toast.success(respData.message, { richColors: true });
         reset({name: ""});
         
         onOpenChange(false);
@@ -70,10 +68,11 @@ export const useCreateUpdateCategoryForm = ({ isEdit = false, currentCategory, o
           router.replace('/categories');
         }
       }else {
-        const resp = await ax.put(`/api/categories/${currentCategory?.id}`, data);
+        const resp = await fetch(`/api/categories/${currentCategory?.id}`, {method: 'PUT', body: JSON.stringify(data)});
+        const respData = await resp.json();
         router.refresh();
 
-        toast.success(resp.data.message, { richColors: true });
+        toast.success(respData.message, { richColors: true });
         reset({name: data.name});
   
         onOpenChange(false);
