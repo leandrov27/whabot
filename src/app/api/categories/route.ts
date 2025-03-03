@@ -18,7 +18,7 @@ export async function GET(request: Request) {
   const skip = (page - 1) * limit;
 
   const categories = await db.category.findMany({
-    skip,
+    skip: skip,
     take: limit,
   });
 
