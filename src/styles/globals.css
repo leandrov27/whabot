@@ -124,4 +124,16 @@
   button {
     cursor: pointer;
   }
+  ::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #3c3c3c; 
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a3a3a;
+  }
 }

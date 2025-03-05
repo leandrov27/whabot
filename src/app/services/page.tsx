@@ -21,35 +21,36 @@ import WhabotCardFooter from "@/components/widgets/WhabotCardFooter";
 import NoResultsFoundAlert from "@/components/widgets/NoResultsFoundAlert";
 import Paginator from "@/components/widgets/Paginator";
 import GoToHome from "@/components/widgets/GoToHome";
-import GoToLink from "@/components/widgets/GoToLink";
 
 // [components]
-import RefetchCategories from "./components/RefetchCategories";
-import CreateEditCategory from "./components/CreateEditCategory";
-import DeleteCategoy from "./components/DeleteCategory";
+import RefetchServices from "./components/RefetchServices";
+import CreateEditService from "./components/CreateEditService";
+import DeleteService from "./components/DeleteService";
 
 // [interfaces]
-import { ICategoriesPageProps, IGetCategoriesResponse } from "./interfaces/types";
+import { IServicesPageProps, IGetServicesResponse } from "./interfaces/types";
+import { Badge } from "@/components/ui/badge";
+import GoToLink from "@/components/widgets/GoToLink";
 
 // ----------------------------------------------------------------------
 
-async function getCategories(page: number = 1): Promise<IGetCategoriesResponse> {
-  const res = await fetch(`${BASE_API_URL}/api/categories?page=${page}&limit=3`);
+async function getServices(page: number = 1): Promise<IGetServicesResponse> {
+  const res = await fetch(`${BASE_API_URL}/api/services?page=${page}&limit=3`);
   if (!res.ok) {
-    throw new Error("Failed to fetch categories");
+    throw new Error("Failed to fetch services");
   }
   return res.json();
 }
 
 // ----------------------------------------------------------------------
 
-export default async function CategoriesPage({ searchParams }: ICategoriesPageProps) {
+export default async function CategoriesPage({ searchParams }: IServicesPageProps) {
   const { page } = await searchParams;
   if (page && isNaN(page)) {
     return notFound();
   }
 
-  const { categories, totalPages, currentPage, total } = await getCategories(page);
+  const { services, totalPages, currentPage, total } = await getServices(page);
 
   return (
     <div className="w-full max-w-sm px-4 mx-auto">
@@ -58,20 +59,20 @@ export default async function CategoriesPage({ searchParams }: ICategoriesPagePr
           <div className="flex flex-row items-center justify-between mb-2">
             <div>
               <p className="text-sm font-medium leading-none">
-                🏷 Lista de Categorías
+                📦 Lista de Servicios
               </p>
               <p className="text-sm text-muted-foreground">
-                <strong>{total}</strong> {total === 1 ? 'Categoría encontrada' : 'Categorías encontradas'}.
+                <strong>{total}</strong> {total === 1 ? 'Servicio encontrada' : 'Servicios encontrados'}.
               </p>
             </div>
 
             <div className="flex flex-row items-center gap-2">
-              <RefetchCategories />
-              <CreateEditCategory />
+              <RefetchServices />
+              <CreateEditService />
             </div>
           </div>
 
-          {categories.length > 0 ? (
+          {services.length > 0 ? (
             <>
               <Separator />
               <div className="h-[173px]">
@@ -79,20 +80,29 @@ export default async function CategoriesPage({ searchParams }: ICategoriesPagePr
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[100px]">ID</TableHead>
-                      <TableHead>Descripción</TableHead>
+                      <TableHead>Categoría</TableHead>
+                      <TableHead>Servicio</TableHead>
+                      <TableHead>Precio</TableHead>
                       <TableHead className="text-right">Operaciones</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {categories.map((category) => (
-                      <TableRow key={category.id}>
+                    {services.map((service) => (
+                      <TableRow key={service.id}>
                         <TableCell className="font-medium">
-                          {category.id}
+                          {service.id}
                         </TableCell>
-                        <TableCell>{category.name}</TableCell>
+                      
+                        <TableCell>  
+                          <Badge variant="outline">
+                            🏷 {service.category.name}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>{service.name}</TableCell>
+                        <TableCell>{service.price}</TableCell>
                         <TableCell className="text-right gap-2 py-1">
-                          <CreateEditCategory selectedCategory={category} isEdit />
-                          <DeleteCategoy selectedCategory={category} />
+                          <CreateEditService selectedService={service} isEdit />
+                          <DeleteService selectedService={service} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -117,7 +127,7 @@ export default async function CategoriesPage({ searchParams }: ICategoriesPagePr
 
           <div className="flex justify-center mt-3 -mb-3 gap-3">
             <GoToHome />
-            <GoToLink link="/services" label="Servicios" />
+            <GoToLink link="/categories" label="Categorías" />
           </div>
         </CardContent>
 

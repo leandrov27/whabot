@@ -65,6 +65,8 @@ export const useCreateUpdateCategoryForm = ({ isEdit = false, currentCategory, o
         onOpenChange(false);
         if (pathname === "/") {
           router.replace('/categories');
+        }else if(pathname === "/services") {
+          router.refresh();
         }
       }else {
         const resp = await fetch(`/api/categories/${currentCategory?.id}`, {

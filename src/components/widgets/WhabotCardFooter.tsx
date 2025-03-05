@@ -11,8 +11,7 @@ export default function WhabotCardFooter() {
     <CardFooter className="justify-center text-sm text-muted-foreground">
       Developed & Maintained by
       <Link
-        href="https://astrolabspy.netlify.app/"
-        target="_blank"
+        href="/developer"
         rel="noopener noreferrer"
         className="text-primary font-semibold hover:underline mx-1"
       >

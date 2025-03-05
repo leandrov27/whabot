@@ -19,7 +19,7 @@ export default function GoToHome() {
   return (
     <Button variant="default" onClick={handleGoBack}>
       <ArrowLeftIcon />
-      Regresar
+      Regresar a Inicio
     </Button>
   );
 }

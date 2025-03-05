@@ -22,16 +22,16 @@ import {
 } from "@/components/ui/alert-dialog";
 
 // [interfaces]
-import { IDeleteCategoyProps } from "../interfaces/types";
+import { IDeleteServiceProps } from "../interfaces/types";
 
 // ----------------------------------------------------------------------
 
-export default function DeleteCategoy({ selectedCategory }: IDeleteCategoyProps) {
+export default function DeleteService({ selectedService }: IDeleteServiceProps) {
   const router = useRouter();
 
-  const handleDeleteCategory = async () => {
+  const handleDeleteService = async () => {
     try {
-      const res = await fetch(`/api/categories/${selectedCategory.id}`, { method: 'DELETE'});
+      const res = await fetch(`/api/services/${selectedService.id}`, { method: 'DELETE'});
       const resData = await res.json();
 
       if (!res.ok) {
@@ -58,19 +58,19 @@ export default function DeleteCategoy({ selectedCategory }: IDeleteCategoyProps)
         <AlertDialogHeader>
           <AlertDialogTitle>¿Estás seguro de esto?</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta acción no se puede deshacer. Esto eliminará la categoría
-            seleccionada y todos los servicios que estén relacionados a ella.
+            Esta acción no se puede deshacer. Esto eliminará el servicio
+            seleccionado.
           </AlertDialogDescription>
 
           <div className="flex flex-row items-center justify-around">
             <div className="flex flex-row items-center">
               <p className="text-sm font-medium leading-none mx-2">ID:</p>
-              <Badge variant="default">{selectedCategory.id}</Badge>
+              <Badge variant="default">{selectedService.id}</Badge>
             </div>
 
             <div className="flex flex-row items-center">
-              <p className="text-sm font-medium leading-none mx-2">Categoría:</p>
-              <Badge variant="default">{selectedCategory.name}</Badge>
+              <p className="text-sm font-medium leading-none mx-2">Servicio:</p>
+              <Badge variant="default">{selectedService.name}</Badge>
             </div>
           </div>
         </AlertDialogHeader>
@@ -79,7 +79,7 @@ export default function DeleteCategoy({ selectedCategory }: IDeleteCategoyProps)
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
           <AlertDialogAction
             className="bg-transparent text-red-500 border-1 hover:bg-secondary"
-            onClick={handleDeleteCategory}
+            onClick={handleDeleteService}
           >
             Si, Eliminar
           </AlertDialogAction>
