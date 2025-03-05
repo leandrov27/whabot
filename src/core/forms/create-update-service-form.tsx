@@ -31,16 +31,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+// widgets
+import EmptyCategoriesAlert from "@/components/widgets/EmptyCategoriesAlert";
+
 // core
 import { useCreateUpdateServiceForm } from "../hooks";
+
+// catergories~services[interfaces]
 import { IService } from "@/app/services/interfaces/types";
-import EmptyCategoriesAlert from "@/components/widgets/EmptyCategoriesAlert";
+import { ICategory } from "@/app/categories/interfaces/types";
 
 // ----------------------------------------------------------------------
 
 type CreateUpdateServiceFormProps = {
   isEdit?: boolean;
   currentService?: IService;
+  categoriesList: ICategory[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
@@ -48,18 +54,18 @@ type CreateUpdateServiceFormProps = {
 export default function CreateUpdateServiceForm({
   isEdit = false,
   currentService,
+  categoriesList,
   open,
   onOpenChange,
 }: CreateUpdateServiceFormProps) {
-  const { categoriesList, methods, control, handleSubmit, onSubmit, isSubmitting } =
+  const { methods, control, handleSubmit, onSubmit, isSubmitting } =
     useCreateUpdateServiceForm({ isEdit, currentService, onOpenChange });
-
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild></DrawerTrigger>
-      <DrawerContent >
+      <DrawerContent className="h-auto">
         <DrawerHeader>
-          <DrawerTitle className="-mb-2">
+          <DrawerTitle>
             {!isEdit
               ? "Registrar Nuevo Servicio"
               : `Modificar Servicio #${currentService?.id}`}
@@ -74,7 +80,7 @@ export default function CreateUpdateServiceForm({
         <div className="px-4">
           <Form {...methods}>
             <Card className="px-6">
-              {categoriesList.length > 0 ? (
+              {categoriesList?.length > 0 ? (
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                   <FormField
                     control={control}
@@ -139,7 +145,7 @@ export default function CreateUpdateServiceForm({
                   </Button>
                 </form>
               ) : (
-                <EmptyCategoriesAlert />
+                <EmptyCategoriesAlert />                    
               )}
             </Card>
           </Form>

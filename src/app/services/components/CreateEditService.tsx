@@ -16,6 +16,7 @@ import { ICreateEditServiceProps } from "../interfaces/types";
 
 export default function CreateEditService({
   selectedService,
+  categoriesList,
   isEdit = false,
   label
 }: ICreateEditServiceProps) {
@@ -31,6 +32,7 @@ export default function CreateEditService({
 
       <CreateUpdateServiceForm 
         currentService={selectedService} 
+        categoriesList={categoriesList}
         isEdit={isEdit} 
         open={createUpdateServiceFormIsOpen}
         onOpenChange={setCreateUpdateServiceFormIsOpen}

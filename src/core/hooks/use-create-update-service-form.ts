@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // next
 import { usePathname, useRouter } from "next/navigation";
@@ -10,15 +10,11 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// config
-import { BASE_API_URL } from "@/config/env";
-
 // core
 import { CreateUpdateServiceSchema, ICreateUpdateServiceSchema } from "../schemas";
 
-// categories~services[interfaces]
+// services[interfaces]
 import { IService } from "@/app/services/interfaces/types";
-import { ICategory } from "@/app/categories/interfaces/types";
 
 // ----------------------------------------------------------------------
 
@@ -30,34 +26,9 @@ type useCreateServiceFormProps = {
 
 // ----------------------------------------------------------------------
 
-async function getCategoriesList() {
-  const res = await fetch(`${BASE_API_URL}/api/categories/list`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch categories list");
-  }
-  return res.json();
-}
-
-// ----------------------------------------------------------------------
-
 export const useCreateUpdateServiceForm = ({ isEdit = false, currentService, onOpenChange }: useCreateServiceFormProps) => {
   const router = useRouter();
   const pathname = usePathname();
-
-  const [categoriesList, setCategoriesList] = useState<ICategory[]>([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const categoriesList = await getCategoriesList();
-        setCategoriesList(categoriesList);
-      } catch (error) {
-        toast.error(`Error fetching categories: ${error}`, { richColors: true });
-      }
-    };
-
-    fetchCategories();
-  }, [])
 
   const methods = useForm<ICreateUpdateServiceSchema>({
     resolver: zodResolver(CreateUpdateServiceSchema),
@@ -139,7 +110,6 @@ export const useCreateUpdateServiceForm = ({ isEdit = false, currentService, onO
   };
 
   return {
-    categoriesList,
     methods,
     control,
     handleSubmit,

@@ -26,7 +26,9 @@ import {
 
 // core
 import { useCreateUpdateCategoryForm } from "../hooks";
-import { ICategory } from "../interfaces";
+
+// categories[interfaces]
+import { ICategory } from "@/app/categories/interfaces/types";
 
 // ----------------------------------------------------------------------
 

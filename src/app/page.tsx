@@ -1,35 +1,23 @@
-"use client";
-
-// next
-import { useRouter } from "next/navigation";
-
 // @shadcn-ui
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 
 // widgets
 import WhabotCardFooter from "@/components/widgets/WhabotCardFooter";
+import GoToLink from "@/components/widgets/GoToLink";
 
 // categories[components]
 import CreateEditCategory from "./categories/components/CreateEditCategory";
 
 // services[components]
 import CreateEditService from "./services/components/CreateEditService";
+import { db } from "@/lib/prisma";
 
 // ----------------------------------------------------------------------
 
-export default function HomePage() {
-  const router = useRouter();
-
-  const handleViewCategories = () => {
-    router.push("/categories");
-  };
-
-  const handleViewServices = () => {
-    router.push("/services");
-  };
-
+export default async function HomePage() {
+  const categories = await db.category.findMany()
+  
   return (
     <div className="w-full max-w-sm px-4 mx-auto">
       <Card className="mt-3 w-full">
@@ -38,7 +26,7 @@ export default function HomePage() {
             <p className="text-sm font-medium leading-none mb-4">⚡Acciones Rápidas</p>
             <div className="flex flex-col gap-2">
               <CreateEditCategory label="Registrar Categorias"/>
-              <CreateEditService label="Registrar Servicios"/>
+              <CreateEditService categoriesList={categories} label="Registrar Servicios" />
             </div>
           </div>
 
@@ -50,12 +38,8 @@ export default function HomePage() {
               Tus categorias & servicios disponibles.
             </p>
             <div className="flex flex-row justify-center gap-2">
-              <Button className="p-2" variant="outline" onClick={handleViewCategories}>
-                🏷 Ver mis Categorías
-              </Button>
-              <Button className="p-2" variant="outline" onClick={handleViewServices}>
-                📦 Ver mis Servicios
-              </Button>
+              <GoToLink to="/categories" label="🏷 Ver mis Categorías" variant="outline" />
+              <GoToLink to="/services" label="📦 Ver mis Servicios" variant="outline" />
             </div>
           </div>
         </CardContent>

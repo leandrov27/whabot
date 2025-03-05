@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 // shadcn-ui
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -117,7 +118,7 @@ export default async function CategoriesPage({ searchParams }: ICategoriesPagePr
 
           <div className="flex justify-center mt-3 -mb-3 gap-3">
             <GoToHome />
-            <GoToLink link="/services" label="Servicios" />
+            <GoToLink to="/services" label="Ir a Servicios" variant="outline" rightIcon={<ArrowRight />}/>
           </div>
         </CardContent>
 

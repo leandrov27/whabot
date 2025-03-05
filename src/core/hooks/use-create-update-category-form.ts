@@ -12,7 +12,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 // core
 import { CreateUpdateCategorySchema, ICreateUpdateCategorySchema } from "../schemas";
-import { ICategory } from "../interfaces";
+
+// categories[interfaces]
+import { ICategory } from "@/app/categories/interfaces/types";
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +68,7 @@ export const useCreateUpdateCategoryForm = ({ isEdit = false, currentCategory, o
         if (pathname === "/") {
           router.replace('/categories');
         }else if(pathname === "/services") {
-          router.refresh();
+          router.replace('/services');
         }
       }else {
         const resp = await fetch(`/api/categories/${currentCategory?.id}`, {
