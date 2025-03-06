@@ -29,7 +29,7 @@ export async function PUT(request: Request, { params }: { params: Params }) {
     }
 
     const validationResult = CreateUpdateCategorySchema.safeParse(body);
-    
+
     if (!validationResult.success) {
       return NextResponse.json(
         { message: "Datos inválidos", errors: validationResult.error.errors },
@@ -37,9 +37,11 @@ export async function PUT(request: Request, { params }: { params: Params }) {
       );
     }
 
-    const selectedCategory = await db.category.findFirst({ where: { id: parsedId } });
+    const selectedCategory = await db.category.findFirst({
+      where: { id: parsedId },
+    });
 
-    if(!selectedCategory) {
+    if (!selectedCategory) {
       return NextResponse.json(
         { message: `La categoría con ID #${parsedId} no se ha encontrado.` },
         { status: 404 }
@@ -80,9 +82,11 @@ export async function DELETE(_: Request, { params }: { params: Params }) {
       );
     }
 
-    const selectedCategory = await db.category.findFirst({ where: { id: parsedId } });
+    const selectedCategory = await db.category.findFirst({
+      where: { id: parsedId },
+    });
 
-    if(!selectedCategory) {
+    if (!selectedCategory) {
       return NextResponse.json(
         { message: `La categoría con ID #${parsedId} no se ha encontrado.` },
         { status: 404 }
@@ -92,7 +96,9 @@ export async function DELETE(_: Request, { params }: { params: Params }) {
     await db.category.delete({ where: { id: parsedId } });
 
     return NextResponse.json(
-      { message: `La categoría ${selectedCategory.name} se ha eliminado correctamente.` },
+      {
+        message: `La categoría ${selectedCategory.name} se ha eliminado correctamente.`,
+      },
       { status: 200 }
     );
   } catch (error) {

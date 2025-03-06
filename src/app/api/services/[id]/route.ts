@@ -13,6 +13,43 @@ type Params = Promise<{ id: string }>;
 
 // ----------------------------------------------------------------------
 
+//* GET /api/services/[id]
+export async function GET(_: Request, { params }: { params: Params }) {
+  try {
+    const { id } = await params;
+    const parsedId = parseInt(id, 10);
+
+    if (isNaN(parsedId)) {
+      return NextResponse.json(
+        { message: `El ID proporcionado: "${id}" es inválido.` },
+        { status: 400 }
+      );
+    }
+
+    const services = await db.service.findMany({
+      where: { idCategory: parsedId },
+      select: {
+        name: true,
+        price: true,
+        category: true
+      },
+    });
+
+    return NextResponse.json(
+      { services },
+      { status: 200 }
+    );
+
+  } catch (error) {
+    let errorMessage = "Error interno del servidor.";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return NextResponse.json({ message: errorMessage }, { status: 500 });
+  }
+}
+
 //* PUT /api/services/[id]
 export async function PUT(request: Request, { params }: { params: Params }) {
   try {
